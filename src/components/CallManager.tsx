@@ -116,7 +116,7 @@ const CallUI: React.FC<{ session: CallSession; onEnd: () => void }> = ({ session
         )}
       </div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-6 px-10 py-6 bg-white/5 backdrop-blur-3xl rounded-[3.5rem] border border-white/10 shadow-2xl">
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-6 px-10 py-6 bg-white/5 backdrop-blur-3xl rounded-[3.5rem] border border-white/10 shadow-2xl z-[100]">
         <button className="w-14 h-14 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
           <Mic size={24} />
         </button>
@@ -203,8 +203,13 @@ const CallManager: React.FC = () => {
 
   const handleEnd = async () => {
     if (!activeCall) return;
-    await updateCallStatus(activeCall.id, 'ended');
-    setActiveCall(null);
+    const callId = activeCall.id;
+    setActiveCall(null); // Instantly close UI
+    try {
+      await updateCallStatus(callId, 'ended');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (activeCall) {
