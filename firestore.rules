@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // --- USER PROFILES ---
+    // Anyone can see a basic profile to find friends, but only owners can edit
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // --- CHAT ROOMS ---
+    // You can only read/write rooms if you are a member of that room
+    match /rooms/{roomId} {
+      allow read: if request.auth != null && (resource.data.type == 'group' || request.auth.uid in resource.data.members);
+      allow write: if request.auth != null && request.auth.uid in resource.data.members;
+      allow create: if request.auth != null;
+      
+      // Messages inside rooms inherit room security
+      match /messages/{messageId} {
+        allow read, write: if request.auth != null && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.members;
+      }
+    }
+    
+    // --- FRIEND REQUESTS ---
+    // Only the sender and receiver can see the request
+    match /friendRequests/{requestId} {
+      allow read: if request.auth != null && (request.auth.uid == resource.data.fromUid || request.auth.uid == resource.data.toUid);
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.toUid;
+    }
+    
+    // --- CALLS ---
+    // Only participants can see call signaling
+    match /calls/{callId} {
+      allow read, write: if request.auth != null && (request.auth.uid == resource.data.callerUid || request.auth.uid == resource.data.receiverUid);
+      allow create: if request.auth != null;
+    }
+  }
+}

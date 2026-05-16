@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: hsl(262, 83%, 58%);
+  --color-primary-foreground: hsl(210, 40%, 98%);
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+  }
+}
+
+@layer components {
+  .btn-icon {
+    @apply p-2 rounded-xl transition-all duration-200 text-slate-500 flex items-center justify-center hover:bg-slate-100 hover:text-primary active:scale-95;
+  }
+  
+  .btn-icon.active {
+    @apply bg-slate-100 text-primary;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-slate-100 shadow-sm;
+  }
+  
+  .input {
+    @apply w-full bg-slate-100 border-none rounded-xl py-3 px-4 text-sm focus:ring-2 ring-primary/20 outline-none transition-all;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2 active:scale-95;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white shadow-lg shadow-primary/20 hover:opacity-90;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-100 text-slate-700 hover:bg-slate-200;
+  }
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track { @apply bg-transparent; }
+::-webkit-scrollbar-thumb { @apply bg-slate-200 rounded-full; }
