@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from './context/AuthContext';
+import { useRooms } from './context/RoomContext';
 import Login from './components/Login';
 import NavigationSidebar from './components/NavigationSidebar';
 import ChatList from './components/ChatList';
@@ -14,6 +15,7 @@ import CallManager from './components/CallManager';
 
 function AppContent() {
   const { user, profile } = useAuth();
+  const { activeRoomId } = useRooms();
   const [activeTab, setActiveTab] = useState('chats');
 
   if (!user) {
@@ -25,7 +27,7 @@ function AppContent() {
   }
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden transition-colors duration-300 relative">
+    <div className="flex h-[100dvh] bg-white overflow-hidden transition-colors duration-300 relative">
       {/* Hide sidebar and panels on mobile when a chat is active */}
       <div className={`flex-shrink-0 flex h-full ${activeRoomId ? 'hidden md:flex' : 'flex'}`}>
         <NavigationSidebar activeTab={activeTab} onTabChange={setActiveTab} />

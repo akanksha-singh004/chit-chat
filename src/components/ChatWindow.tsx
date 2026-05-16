@@ -197,7 +197,7 @@ const ChatWindow: React.FC = () => {
     : `https://ui-avatars.com/api/?name=${encodeURIComponent(roomName)}&background=random&color=fff&bold=true`;
 
   return (
-    <div className="flex-1 flex flex-col bg-white h-screen">
+    <div className="flex-1 flex flex-col bg-white h-full">
       {/* Header */}
       <header className="h-[80px] px-4 md:px-6 border-b border-slate-100 flex items-center justify-between bg-white/80 backdrop-blur-md z-10 relative">
         <div className="flex items-center gap-3 md:gap-4">
