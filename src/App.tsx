@@ -25,21 +25,27 @@ function AppContent() {
   }
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden transition-colors duration-300">
-      {/* Prop name fixed to onTabChange to match NavigationSidebar component */}
-      <NavigationSidebar activeTab={activeTab} onTabChange={setActiveTab} />
-      
-      <div className="w-[320px] flex-shrink-0 relative overflow-hidden border-r border-slate-100">
-        {/* Conditional Side Panels - IDs synced with NavigationSidebar */}
-        {activeTab === 'chats' && <ChatList onAddClick={() => setActiveTab('people')} />}
-        {activeTab === 'people' && <PeopleList />}
-        {activeTab === 'calls' && <CallLogList />}
-        {activeTab === 'groups' && <PublicRooms />}
-        {activeTab === 'requests' && <RequestList />}
-        {activeTab === 'settings' && <Settings onClose={() => setActiveTab('chats')} />}
+    <div className="flex h-screen bg-white overflow-hidden transition-colors duration-300 relative">
+      {/* Hide sidebar and panels on mobile when a chat is active */}
+      <div className={`flex-shrink-0 flex h-full ${activeRoomId ? 'hidden md:flex' : 'flex'}`}>
+        <NavigationSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        
+        <div className="w-[calc(100vw-80px)] md:w-[320px] flex-shrink-0 relative overflow-hidden border-r border-slate-100">
+          {/* Conditional Side Panels - IDs synced with NavigationSidebar */}
+          {activeTab === 'chats' && <ChatList onAddClick={() => setActiveTab('people')} />}
+          {activeTab === 'people' && <PeopleList />}
+          {activeTab === 'calls' && <CallLogList />}
+          {activeTab === 'groups' && <PublicRooms />}
+          {activeTab === 'requests' && <RequestList />}
+          {activeTab === 'settings' && <Settings onClose={() => setActiveTab('chats')} />}
+        </div>
       </div>
 
-      <ChatWindow />
+      {/* Hide ChatWindow on mobile when no chat is active */}
+      <div className={`flex-1 min-w-0 ${activeRoomId ? 'block' : 'hidden md:block'}`}>
+        <ChatWindow />
+      </div>
+
       <CallManager />
     </div>
   );

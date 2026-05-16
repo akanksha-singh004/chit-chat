@@ -17,7 +17,8 @@ import {
   Download,
   Loader2,
   UserMinus,
-  Ban
+  Ban,
+  ArrowLeft
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -198,9 +199,15 @@ const ChatWindow: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col bg-white h-screen">
       {/* Header */}
-      <header className="h-[80px] px-6 border-b border-slate-100 flex items-center justify-between bg-white/80 backdrop-blur-md z-10 relative">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-slate-50 rounded-full overflow-hidden shadow-sm ring-1 ring-slate-100 flex items-center justify-center">
+      <header className="h-[80px] px-4 md:px-6 border-b border-slate-100 flex items-center justify-between bg-white/80 backdrop-blur-md z-10 relative">
+        <div className="flex items-center gap-3 md:gap-4">
+          <button 
+            onClick={() => setActiveRoomId(null)}
+            className="md:hidden p-2 -ml-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100"
+          >
+            <ArrowLeft size={24} />
+          </button>
+          <div className="w-10 h-10 md:w-12 md:h-12 bg-slate-50 rounded-full overflow-hidden shadow-sm ring-1 ring-slate-100 flex items-center justify-center">
             <img 
               src={roomPhoto} 
               alt="" 
