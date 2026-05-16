@@ -83,12 +83,15 @@ const ChatWindow: React.FC = () => {
   };
 
   const handleCall = async (type: 'voice' | 'video') => {
-    if (!activeRoom || !user || activeRoom.type !== 'dm' || !otherUser) return;
+    if (!activeRoom || !user || activeRoom.type !== 'dm') return;
     
+    const otherUid = activeRoom.members.find(uid => uid !== user.uid);
+    if (!otherUid) return;
+
     await startCall(activeRoom.id, user, {
-      uid: otherUser.uid || activeRoom.members.find(uid => uid !== user.uid),
-      name: otherUser.name || activeRoom.name,
-      photo: otherUser.photoURL || `https://ui-avatars.com/api/?name=${otherUser.name}&background=random`
+      uid: otherUid,
+      name: otherUser?.name || otherUser?.username || activeRoom.name || 'User',
+      photo: otherUser?.photoURL || otherUser?.photo || `https://ui-avatars.com/api/?name=${activeRoom.name}&background=random`
     }, type);
   };
 
@@ -199,7 +202,7 @@ const ChatWindow: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col bg-white h-full">
       {/* Header */}
-      <header className="h-[80px] px-4 md:px-6 border-b border-slate-100 flex items-center justify-between bg-white/80 backdrop-blur-md z-10 relative">
+      <header className="h-[80px] shrink-0 px-4 md:px-6 border-b border-slate-100 flex items-center justify-between bg-white/80 backdrop-blur-md z-10 relative">
         <div className="flex items-center gap-3 md:gap-4">
           <button 
             onClick={() => setActiveRoomId(null)}
