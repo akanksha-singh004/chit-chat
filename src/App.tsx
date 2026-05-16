@@ -44,7 +44,7 @@ function AppContent() {
       </div>
 
       {/* Hide ChatWindow on mobile when no chat is active */}
-      <div className={`flex-1 min-w-0 ${activeRoomId ? 'block' : 'hidden md:block'}`}>
+      <div className={`flex-1 min-w-0 flex flex-col h-full ${activeRoomId ? 'flex' : 'hidden md:flex'}`}>
         <ChatWindow />
       </div>
 
