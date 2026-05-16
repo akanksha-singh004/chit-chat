@@ -44,11 +44,10 @@ const CallUI: React.FC<{ session: CallSession; onEnd: () => void }> = ({ session
 
   usePublish([localMicrophoneTrack, localCameraTrack]);
 
+  // Join Agora immediately when CallUI renders
   useEffect(() => {
-    if (session.status === 'connected') {
-      setJoined(true);
-    }
-  }, [session.status]);
+    setJoined(true);
+  }, []);
 
   // Handle Agora connection errors
   useEffect(() => {
